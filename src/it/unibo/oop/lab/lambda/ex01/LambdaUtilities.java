@@ -1,7 +1,9 @@
 package it.unibo.oop.lab.lambda.ex01;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,13 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * This class will contain four utility functions on lists and maps, of which the first one is provided as exmaple.
  * 
- * All such methods take as second argument a functional interface from the Java library (java.util.function).
- * This enables calling them by using the concise lambda syntax, as it's done in the main function.
- * 
- * Realize the three methods **WITHOUT** using the Stream library, but only leveraging the lambdas.
- *
  */
 public final class LambdaUtilities {
 
@@ -59,9 +55,13 @@ public final class LambdaUtilities {
      */
     public static <T> List<Optional<T>> optFilter(final List<T> list, final Predicate<T> pre) {
         /*
-         * Suggestion: consider Optional.filter
+         * Suggerimento: valutare l'uso di Optional.filter
          */
-        return null;
+        final List<Optional<T>> l = new ArrayList<>();
+        list.forEach(t -> {
+            l.add(Optional.ofNullable(t).filter(pre));
+        });
+        return l;
     }
 
     /**
@@ -78,9 +78,16 @@ public final class LambdaUtilities {
      */
     public static <R, T> Map<R, Set<T>> group(final List<T> list, final Function<T, R> op) {
         /*
-         * Suggestion: consider Map.merge
+         * Suggerimento: valutare l'uso di Map.merge
          */
-        return null;
+        final Map<R, Set<T>> map = new HashMap<>();
+        list.forEach(t -> {
+            map.merge(op.apply(t), new HashSet<>(Arrays.asList(t)), (t1, t2) -> {
+                t1.addAll(t2);
+                return t1;
+            });
+        });
+        return map;
     }
 
     /**
@@ -97,11 +104,13 @@ public final class LambdaUtilities {
      */
     public static <K, V> Map<K, V> fill(final Map<K, Optional<V>> map, final Supplier<V> def) {
         /*
-         * Suggestion: consider Optional.orElse
+         * Suggerimento: valutare l'uso di Optional.orElse
          * 
-         * Keep in mind that a map can be iterated through its forEach method
+         * Si ricordi che si può iterare una mappa col suo metodo forEach
          */
-        return null;
+        final Map<K, V> m = new HashMap<>();
+        map.forEach((k, v) -> m.put(k, v.orElse(def.get())));
+        return m;
     }
 
     /**
@@ -109,15 +118,19 @@ public final class LambdaUtilities {
      *            ignored
      */
     public static void main(final String[] args) {
+
         final List<Integer> li = IntStream.range(1, 8).mapToObj(i -> Integer.valueOf(i)).collect(Collectors.toList());
+
         System.out.println(dup(li, x -> x + 100));
         /*
          * [1, 101, 2, 102, 3, 103, 4, 104, 5, 105, 6, 106, 7, 107]
          */
-        System.out.println(group(li, x -> x % 2 == 0 ? "even" : "odd"));
+
+        System.out.println(group(li, x -> x % 2 == 0 ? "pari" : "dispari"));
         /*
-         * {odd=[1, 3, 5, 7], even=[2, 4, 6]}
+         * {dispari=[1, 3, 5, 7], pari=[2, 4, 6]}
          */
+
         final List<Optional<Integer>> opt = optFilter(li, x -> x % 3 == 0);
         System.out.println(opt);
         /*

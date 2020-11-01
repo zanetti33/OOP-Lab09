@@ -6,7 +6,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
+import java.util.Arrays;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,7 +19,6 @@ import javax.swing.JTextArea;
 
 /**
  * Modify this small program adding new filters.
- * Realize this exercise using as much as possible the Stream library.
  * 
  * 1) Convert to lowercase
  * 
@@ -34,9 +35,34 @@ import javax.swing.JTextArea;
 public final class LambdaFilter extends JFrame {
 
     private static final long serialVersionUID = 1760990730218643730L;
+    /*
+     * This is a "regular expression". It is a very powerful tool for inspecting
+     * and manipulating strings. Unfortunately, we have no room in this course
+     * to introduce them - but you can read something yourself (start from
+     * https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html),
+     * and test your abilities with https://regex101.com/
+     */
+    private static final String ANY_NON_WORD = "(\\s|\\p{Punct})+";
 
     private enum Command {
-        IDENTITY("No modifications", Function.identity());
+        /**
+         * Commands.
+         */
+        IDENTITY("No modifications", Function.identity()),
+        TO_LOWER("Lowercase", String::toLowerCase),
+        COUNT("Count chars", s -> Integer.toString(s.length())),
+        LINES("Count lines", s -> Long.toString(s.chars().filter(e -> e == '\n').count() + 1)),
+        WORDS("Sort words in alphabetical order", s ->
+            Arrays.stream(s.split(ANY_NON_WORD))
+                .sorted()
+                .collect(Collectors.joining("\n"))),
+        WORDCOUNT("Count words", s ->
+            Arrays.stream(s.split(ANY_NON_WORD))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .map(e -> e.getKey() + " -> " + e.getValue())
+                .collect(Collectors.joining("\n"))
+        );
 
         private final String commandName;
         private final Function<String, String> fun;
@@ -74,7 +100,7 @@ public final class LambdaFilter extends JFrame {
         centralPanel.add(right);
         panel1.add(centralPanel, BorderLayout.CENTER);
         final JButton apply = new JButton("Apply");
-        apply.addActionListener(ev -> right.setText(((Command) combo.getSelectedItem()).translate(left.getText())));
+        apply.addActionListener((ev) -> right.setText(((Command) combo.getSelectedItem()).translate(left.getText())));
         panel1.add(apply, BorderLayout.SOUTH);
         setContentPane(panel1);
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -85,7 +111,8 @@ public final class LambdaFilter extends JFrame {
     }
 
     /**
-     * @param a unused
+     * @param a
+     *            unused
      */
     public static void main(final String... a) {
         final LambdaFilter gui = new LambdaFilter();

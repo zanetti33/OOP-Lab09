@@ -5,7 +5,6 @@ import java.util.OptionalDouble;
 import java.util.stream.Stream;
 
 /**
- * 
  *
  */
 public interface MusicGroup {
