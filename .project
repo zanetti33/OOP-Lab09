@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>lab10</name>
+	<name>lab09</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -21,7 +21,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>net.sourceforge.pmd.eclipse.plugin.pmdBuilder</name>
+			<name>ch.acanda.eclipse.pmd.builder.PMDBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -30,6 +30,6 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</nature>
 		<nature>net.sf.eclipsecs.core.CheckstyleNature</nature>
-		<nature>net.sourceforge.pmd.eclipse.plugin.pmdNature</nature>
+		<nature>ch.acanda.eclipse.pmd.builder.PMDNature</nature>
 	</natures>
 </projectDescription>
