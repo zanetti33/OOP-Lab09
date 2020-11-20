@@ -19,15 +19,16 @@ import javax.swing.JTextArea;
 
 /**
  * Modify this small program adding new filters.
- * 
+ * Realize this exercise using as much as possible the Stream library.
+ *
  * 1) Convert to lowercase
- * 
+ *
  * 2) Count the number of chars
- * 
+ *
  * 3) Count the number of lines
- * 
+ *
  * 4) List all the words in alphabetical order
- * 
+ *
  * 5) Write the count for each word, e.g. "word word pippo" should output "pippo
  * -> 1 word -> 2
  *
@@ -100,7 +101,7 @@ public final class LambdaFilter extends JFrame {
         centralPanel.add(right);
         panel1.add(centralPanel, BorderLayout.CENTER);
         final JButton apply = new JButton("Apply");
-        apply.addActionListener((ev) -> right.setText(((Command) combo.getSelectedItem()).translate(left.getText())));
+        apply.addActionListener(ev -> right.setText(((Command) combo.getSelectedItem()).translate(left.getText())));
         panel1.add(apply, BorderLayout.SOUTH);
         setContentPane(panel1);
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -111,8 +112,7 @@ public final class LambdaFilter extends JFrame {
     }
 
     /**
-     * @param a
-     *            unused
+     * @param a unused
      */
     public static void main(final String... a) {
         final LambdaFilter gui = new LambdaFilter();
