@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * This class will contain four utility functions on lists and maps, of which the first one is provided as exmaple.
+ * This class will contain four utility functions on lists and maps, of which the first one is provided as example.
  * 
  * All such methods take as second argument a functional interface from the Java library (java.util.function).
  * This enables calling them by using the concise lambda syntax, as it's done in the main function.
