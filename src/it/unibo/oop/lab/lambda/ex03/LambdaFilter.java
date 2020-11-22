@@ -28,9 +28,8 @@ import javax.swing.JTextArea;
  * 3) Count the number of lines
  *
  * 4) List all the words in alphabetical order
- *
- * 5) Write the count for each word, e.g. "word word pippo" should output "pippo
- * -> 1 word -> 2
+ * 
+ * 5) Write the count for each word, e.g. "word word pippo" should output "pippo -> 1 word -> 2"
  *
  */
 public final class LambdaFilter extends JFrame {
